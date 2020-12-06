@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div>
+        <img src={{movie.image}} alt="movie">
+        <div>
+            <h4>{{movie.title}}</h4>
+            <p>{{movie.imdb}}/10</p>
+            <p>{{movie.release_year}}</p>
+            <p>{{movie.genre}}</p>
+            <p>{{movie.duration}} </p>
+            <p>{{movie.country}}</p>
+            <hr>
+            <p>{{movie.description}}</p>
+        </div>
+    </div>
+{% endblock %}
+
