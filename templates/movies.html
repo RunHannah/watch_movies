@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body%}
+    <h1>MOVIES LIST</h1>
+        <div>
+            {% for movie in movies  %}
+                <div>
+                    <img src={{movie.image}} alt="movie">
+                    <h4>{{movie.title}}</h4>
+                    <p>{{movie.release_year}}</p>
+                    <p>{{movie.genre}}</p>
+                    <p>{{movie.duration}} </p>
+                    <p>{{movie.description}}</p>
+                    <hr>
+                </div>
+            {% endfor %}
+            </div>
+{% endblock %}
