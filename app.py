@@ -3,8 +3,25 @@ import os
 import csv
 import random
 import requests
+from models import db, Movie
 
 app = Flask(__name__)
+
+ENV = 'dev'
+
+# configure the PostgreSQL Connection
+SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if ENV == 'dev':
+    app.debug = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+else:
+    app.debug = False
+    # app.config['SQLALCHEMY_DATABASE_URI'] = ''
+
+# pass on app object to the SQLAlchemy object db
+db.init_app(app)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -39,12 +56,33 @@ def index():
     response = requests.request("GET", url)
     # parse result into JSON and look for matching data if available
     movie_data = response.json()
+
     if 'Poster' in movie_data:
         movie['image'] = movie_data['Poster']
     if 'imdbRating' in movie_data:
         movie['imdb'] = movie_data['imdbRating']
-    # send all this data to the home.html template
-    return render_template("index.html", movie=movie)
+    # send movie data to the movie.html template
+    return render_template("movie.html", movie=movie)
+
+@app.route('/add', methods=['POST'])
+def add():
+    if request.method == 'POST':
+        title = request.form['title']
+        release_year = request.form['release_year']
+        duration = request.form['duration']
+        genre = request.form['genre']
+        description = request.form['description']
+        
+        print(title, release_year, duration, genre, description)
+
+        if db.session.query(Movie).filter(Movie.title == title).count() == 0:
+            data = Movie(title, release_year, duration, genre, description)
+            db.session.add(data)
+            db.session.commit()
+        
+            return render_template('movies.html')
+        # temp 
+        return render_template('layout.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
