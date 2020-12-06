@@ -13,6 +13,15 @@
             <hr>
             <p>{{movie.description}}</p>
         </div>
+        <form action="/add" method="POST">
+            <h3>Add {{movie.title}} to your list!</h3>
+            <input class="movieInput" type="text" name="title" value="{{movie.title}}" />
+            <input class="movieInput" type="text" name="release_year" value="{{movie.release_year}}" />
+            <input class="movieInput" type="text" name="duration" value="{{movie.duration}}" />
+            <input class="movieInput" type="text" name="genre" value="{{movie.genre}}" />
+            <input class="movieInput" type="text" name="description" value="{{movie.description}}" />
+            <input type="submit" value="Submit">
+        </form>
     </div>
 {% endblock %}
 
