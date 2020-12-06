@@ -20,9 +20,6 @@ else:
     app.debug = False
     # app.config['SQLALCHEMY_DATABASE_URI'] = ''
 
-# pass on app object to the SQLAlchemy object db
-db.init_app(app)
-
 @app.route('/', methods=['GET'])
 def index():
     # randomly select a movie
@@ -67,22 +64,41 @@ def index():
 @app.route('/add', methods=['POST'])
 def add():
     if request.method == 'POST':
+        image = request.form['image']
         title = request.form['title']
         release_year = request.form['release_year']
         duration = request.form['duration']
         genre = request.form['genre']
         description = request.form['description']
         
-        print(title, release_year, duration, genre, description)
+        print(image, title, release_year, duration, genre, description)
 
+        # check movie is not in the list
         if db.session.query(Movie).filter(Movie.title == title).count() == 0:
-            data = Movie(title, release_year, duration, genre, description)
-            db.session.add(data)
-            db.session.commit()
-        
-            return render_template('movies.html')
+            data = Movie(image, title, release_year, duration, genre, description)
+            Movie.save(data)
+            movies_list = Movie.get_all()
+            results = []
+
+            for movie in movies_list:
+                obj = {
+                    'id': movie.id,
+                    'image': movie.image,
+                    'title': movie.title,
+                    'release_year': movie.release_year,
+                    'duration': movie.duration,
+                    'genre': movie.genre,
+                    'description': movie.description
+                }
+                results.append(obj)
+                
+            return render_template('movies.html', movies=results)
         # temp 
         return render_template('layout.html')
 
 if __name__ == '__main__':
+    # pass on app object to the SQLAlchemy object db
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
     app.run()
