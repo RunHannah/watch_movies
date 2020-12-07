@@ -21,11 +21,30 @@ class Movie(db.Model):
         self.genre = genre
         self.description = description
 
-    def save(self):
-        db.session.add(self)
+    def save(data):
+        db.session.add(data)
         db.session.commit()
-    
+ 
+        movies_list = Movie.get_all()
+        results = []
+        for movie in movies_list:
+            obj = {
+                'id': movie.id,
+                'image': movie.image,
+                'title': movie.title,
+                'release_year': movie.release_year,
+                'duration': movie.duration,
+                'genre': movie.genre,
+                'description': movie.description
+            }
+            results.append(obj)
+        return results
+
     @staticmethod
     def get_all():
         return Movie.query.all()
-        
+    
+    def delete(id):
+        movie = Movie.query.filter(Movie.id == id).first()
+        db.session.delete(movie)
+        db.session.commit()

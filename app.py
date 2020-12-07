@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import os
 import csv
 import random
@@ -61,8 +61,12 @@ def index():
     # send movie data to the movie.html template
     return render_template("movie.html", movie=movie)
 
-@app.route('/add', methods=['POST'])
-def add():
+@app.route('/list', methods=['GET', 'POST'])
+def get_list():
+    if request.method == 'GET':
+        movies = Movie.get_all()
+        return render_template('movies.html', movies=movies)
+
     if request.method == 'POST':
         image = request.form['image']
         title = request.form['title']
@@ -71,30 +75,24 @@ def add():
         genre = request.form['genre']
         description = request.form['description']
         
-        print(image, title, release_year, duration, genre, description)
-
         # check movie is not in the list
         if db.session.query(Movie).filter(Movie.title == title).count() == 0:
             data = Movie(image, title, release_year, duration, genre, description)
-            Movie.save(data)
-            movies_list = Movie.get_all()
-            results = []
-
-            for movie in movies_list:
-                obj = {
-                    'id': movie.id,
-                    'image': movie.image,
-                    'title': movie.title,
-                    'release_year': movie.release_year,
-                    'duration': movie.duration,
-                    'genre': movie.genre,
-                    'description': movie.description
-                }
-                results.append(obj)
+            movies = Movie.save(data)
                 
-            return render_template('movies.html', movies=results)
+            return render_template('movies.html', movies=movies)
         # temp 
         return render_template('layout.html')
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    if request.method == 'POST':
+        id = request.form['movie_id']
+        Movie.delete(id)        
+        return redirect('/list')
+        
+    # temp 
+    return render_template('layout.html')    
 
 if __name__ == '__main__':
     # pass on app object to the SQLAlchemy object db

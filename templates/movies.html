@@ -13,6 +13,11 @@
                     <p>{{movie.description}}</p>
                     <hr>
                 </div>
+                <form action='/delete' method="POST">
+                    <h3>Delete {{movie.title}} from your list!</h3>
+                    <input class="movieInput" type="text" name="movie_id" value="{{movie.id}}" />
+                    <input type="submit" value="Submit">
+                </form>
             {% endfor %}
             </div>
 {% endblock %}
