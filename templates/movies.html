@@ -1,23 +1,25 @@
 {% extends "layout.html" %}
 
 {% block body%}
-    <h1>MOVIES LIST</h1>
-        <div>
-            {% for movie in movies  %}
-                <div>
-                    <img src={{movie.image}} alt="movie">
-                    <h4>{{movie.title}}</h4>
-                    <p>{{movie.release_year}}</p>
-                    <p>{{movie.genre}}</p>
-                    <p>{{movie.duration}} </p>
-                    <p>{{movie.description}}</p>
-                    <hr>
+    <h1>Saved Movies List</h1>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+        {% for movie in movies  %}
+            <div class="col mx-auto">
+                <div class="card md-w-60">
+                    <img class="card-img-top" src={{movie.image}} alt="movie">
+                    <div class="card-body">
+                        <h4 class="card-title">{{movie.title}}</h4>
+                        <p class="card-text">{{movie.release_year}}</p>
+                        <p class="card-text">{{movie.genre}}</p>
+                        <p class="card-text">{{movie.duration}} </p>
+                        <p class="card-text">{{movie.description}}</p>
+                    </div>
+                    <form class="mx-auto" action='/delete' method="POST">
+                        <input class="movieInput" style="display: none" type="text" name="movie_id" value="{{movie.id}}" />
+                        <input class="btn btn-danger"  type="submit" value="Remove from list">
+                    </form>
                 </div>
-                <form action='/delete' method="POST">
-                    <h3>Delete {{movie.title}} from your list!</h3>
-                    <input class="movieInput" type="text" name="movie_id" value="{{movie.id}}" />
-                    <input type="submit" value="Submit">
-                </form>
-            {% endfor %}
             </div>
+        {% endfor %}
+    </div>
 {% endblock %}
