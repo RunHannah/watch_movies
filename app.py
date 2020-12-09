@@ -22,44 +22,47 @@ else:
 
 @app.route('/', methods=['GET'])
 def index():
-    # randomly select a movie
-    with open('netflix_titles.csv') as f:
-        reader = csv.reader(f)
-        row = random.choice(list(reader))
+    if request.method == 'GET':
+        # randomly select a movie
+        with open('netflix_titles.csv') as f:
+            reader = csv.reader(f)
+            row = random.choice(list(reader))
 
-    movie = {
-        'id': row[0],
-        'category': row[1],
-        'title': row[2],
-        'director': row[3],
-        'cast': row[4],
-        'country': row[5],
-        'date_added': row[6],
-        'release_year': row[7],
-        'maturity': row[8],
-        'duration': row[9],
-        'genre': row[10],
-        'description': row[11],
-        # default poster just so we see something
-        'image': 'https://live.staticflickr.com/4422/36193190861_93b15edb32_z.jpg',
-        'imdb': 'Not Available'
-   }
+        movie = {
+            'id': row[0],
+            'category': row[1],
+            'title': row[2],
+            'director': row[3],
+            'cast': row[4],
+            'country': row[5],
+            'date_added': row[6],
+            'release_year': row[7],
+            'maturity': row[8],
+            'duration': row[9],
+            'genre': row[10],
+            'description': row[11],
+            # default poster just so we see something
+            'image': 'https://live.staticflickr.com/4422/36193190861_93b15edb32_z.jpg',
+            'imdb': 'Not Available'
+    }
 
-    # fetch cover image
-    # call OMDB database
-    OMDB_API_KEY = os.getenv('OMDB_API_KEY')
-    url = f"http://www.omdbapi.com/?t={movie['title']}/&apikey={OMDB_API_KEY}"
-    # get back the response
-    response = requests.request("GET", url)
-    # parse result into JSON and look for matching data if available
-    movie_data = response.json()
+        # fetch cover image
+        # call OMDB database
+        OMDB_API_KEY = os.getenv('OMDB_API_KEY')
+        url = f"http://www.omdbapi.com/?t={movie['title']}/&apikey={OMDB_API_KEY}"
+        # get back the response
+        response = requests.request("GET", url)
+        # parse result into JSON and look for matching data if available
+        movie_data = response.json()
+        print(f"movie_data {movie_data}")
 
-    if 'Poster' in movie_data:
-        movie['image'] = movie_data['Poster']
-    if 'imdbRating' in movie_data:
-        movie['imdb'] = movie_data['imdbRating']
-    # send movie data to the movie.html template
-    return render_template("movie.html", movie=movie)
+        if 'Poster' in movie_data:
+            movie['image'] = movie_data['Poster']
+        if 'imdbRating' in movie_data:
+            movie['imdb'] = movie_data['imdbRating']
+
+        # send movie data to the movie.html template
+        return render_template("movie.html", movie=movie)
 
 @app.route('/list', methods=['GET', 'POST'])
 def get_list():
