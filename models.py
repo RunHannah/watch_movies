@@ -5,6 +5,7 @@ db = SQLAlchemy()
 class Movie(db.Model):
     __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True)
+    movie_id = db.Column(db.Integer)
     image = db.Column(db.String(500))
     title = db.Column(db.String(200))
     release_year = db.Column(db.String(4))
@@ -13,7 +14,8 @@ class Movie(db.Model):
     description = db.Column(db.Text())
 
     # constructor
-    def __init__(self, image, title, release_year, duration, genre, description):
+    def __init__(self, movie_id, image, title, release_year, duration, genre, description):
+        self.movie_id = movie_id
         self.image = image
         self.title = title
         self.release_year = release_year
@@ -30,6 +32,7 @@ class Movie(db.Model):
         for movie in movies_list:
             obj = {
                 'id': movie.id,
+                'movie_id': movie.movie_id,
                 'image': movie.image,
                 'title': movie.title,
                 'release_year': movie.release_year,

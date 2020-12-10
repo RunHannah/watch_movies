@@ -27,6 +27,7 @@
                         <input class="btn btn-warning btn-lg" type="submit" value="Keep Looking">
                     </form>
                     <form action="/list" method="POST">
+                        <input class="movieInput" style="display: none" type="text" name="movie_id" value="{{movie.movie_id}}" />
                         <input class="movieInput" style="display: none" type="text" name="image" value="{{movie.image}}" />
                         <input class="movieInput" style="display: none" type="text" name="title" value="{{movie.title}}" />
                         <input class="movieInput" style="display: none" type="text" name="release_year" value="{{movie.release_year}}" />

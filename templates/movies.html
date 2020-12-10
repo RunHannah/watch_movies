@@ -2,7 +2,11 @@
 
 {% block body%}
     <div>
-        <h1 class="d-flex justify-content-center text-danger mb-5">Your Saved Movies</h1>
+        <h1 class="d-flex justify-content-center text-danger mb-5">Movies & Shows to Watch</h1>
+        {% if movies|length < 1 %}
+        <h3 class="d-flex justify-content-center text-warning mb-5">You haven't saved any movies or shows!</h3>
+        {% else %}
+        
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 ">
             {% for movie in movies  %}
                 <div class="col mx-auto">
@@ -19,10 +23,13 @@
                             <input class="movieInput" style="display: none" type="text" name="movie_id" value="{{movie.id}}" />
                             <input class="btn btn-danger"  type="submit" value="Remove">
                         </form>
+                        <button class="btn btn-danger" onclick="window.open('https://www.netflix.com/watch/{{movie.movie_id}}', '_blank')" target='0'>
+                            Watch Now
+                        </button>
                     </div>
                 </div>
             {% endfor %}
         </div>
-
+        {% endif %}
     </div>
 {% endblock %}

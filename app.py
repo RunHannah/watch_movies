@@ -29,7 +29,7 @@ def index():
             row = random.choice(list(reader))
 
         movie = {
-            'id': row[0],
+            'movie_id': row[0],
             'category': row[1],
             'title': row[2],
             'director': row[3],
@@ -70,6 +70,7 @@ def get_list():
         return render_template('movies.html', movies=movies)
 
     if request.method == 'POST':
+        movie_id = request.form['movie_id']
         image = request.form['image']
         title = request.form['title']
         release_year = request.form['release_year']
@@ -79,7 +80,7 @@ def get_list():
         
         # check movie is not in the list
         if db.session.query(Movie).filter(Movie.title == title).count() == 0:
-            data = Movie(image, title, release_year, duration, genre, description)
+            data = Movie(movie_id, image, title, release_year, duration, genre, description)
             movies = Movie.save(data)
                 
             return render_template('movies.html', movies=movies)
