@@ -3,26 +3,34 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width= , initial-scale=1.0">
-        <link href="../static/style.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link href="/static/styles.css" rel="stylesheet">
         <title>Home</title>
     </head>
     <body>
-        <nav class="navbar navbar-dark bg-dark">
-            <div class="container">
-                <a href="/">Home</a>
-                <a href="/list">Saved List</a>
-            </div>
-        </nav>
         <div class="container">
+            <nav class="navbar navbar-light mb-3 mt-3">
+                <div class="container-fluid justify-content-between">
+                    <h1 class="navbar-text text-danger">
+                        RandoFlix! 
+                    </h1>
+                    <div>
+                        <a class="btn btn-danger me-3" href="/">Home</a>
+                        <a class="btn btn-danger" href="/list">See List</a>
+                    </div>
+                </div>
+                <p class="navbar-text text-danger ms-2">
+                    Discover Netflix shows and movies to watch from a random generator
+                </p>
+            </nav>
             {% block body %}
             {% endblock %}
+            <footer id="footer" class="text-white-50 mb-3">
+                {% block footer %}
+                &copy; Copyright 2020 by <a href="https://github.com/RunHannah/" target="_blank">runHannah</a>.
+                {% endblock %}
+            </footer>
         </div>
-        <footer id="footer">
-            {% block footer %}
-            &copy; Copyright 2020 by <a href="http://mydomain.tld">myself</a>.
-            {% endblock %}
-        </footer>
     </body>
 </html>

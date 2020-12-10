@@ -42,7 +42,7 @@ def index():
             'genre': row[10],
             'description': row[11],
             # default poster just so we see something
-            'image': 'https://live.staticflickr.com/4422/36193190861_93b15edb32_z.jpg',
+            'image': 'https://picsum.photos/300/400',
             'imdb': 'Not Available'
     }
 
@@ -54,7 +54,6 @@ def index():
         response = requests.request("GET", url)
         # parse result into JSON and look for matching data if available
         movie_data = response.json()
-        print(f"movie_data {movie_data}")
 
         if 'Poster' in movie_data:
             movie['image'] = movie_data['Poster']
