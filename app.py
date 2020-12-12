@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, make_response
 import os
 import csv
 import random
@@ -41,7 +41,7 @@ def index():
             'duration': row[9],
             'genre': row[10],
             'description': row[11],
-            # default poster just so we see something
+            # random poster in case image is not available
             'image': 'https://picsum.photos/300/400',
             'imdb': 'Not Available'
     }
@@ -70,22 +70,18 @@ def get_list():
         return render_template('movies.html', movies=movies)
 
     if request.method == 'POST':
-        movie_id = request.form['movie_id']
-        image = request.form['image']
-        title = request.form['title']
-        release_year = request.form['release_year']
-        duration = request.form['duration']
-        genre = request.form['genre']
-        description = request.form['description']
+        m = request.get_json()
+        # res = make_response(jsonify(m), 200)
+        # return res
         
         # check movie is not in the list
-        if db.session.query(Movie).filter(Movie.title == title).count() == 0:
-            data = Movie(movie_id, image, title, release_year, duration, genre, description)
+        if db.session.query(Movie).filter(Movie.movie_id == m["movie_id"]).count() == 0:
+            data = Movie(m["movie_id"], m["image"], m["title"], m["release_year"], m["duration"], m["genre"], m["description"])
             movies = Movie.save(data)
-                
-            return render_template('movies.html', movies=movies)
-        # temp 
-        return render_template('layout.html')
+            return '/'
+
+        movies = Movie.get_all()
+        return render_template('movies.html', movies=movies)
 
 @app.route('/delete', methods=['POST'])
 def delete():
@@ -94,8 +90,8 @@ def delete():
         Movie.delete(id)        
         return redirect('/list')
         
-    # temp 
-    return render_template('layout.html')    
+    movies = Movie.get_all()
+    return render_template('movies.html', movies=movies)   
 
 if __name__ == '__main__':
     # pass on app object to the SQLAlchemy object db

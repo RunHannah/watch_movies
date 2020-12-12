@@ -26,19 +26,44 @@
                     <form action="/" method="GET">
                         <input class="btn btn-warning btn-lg" type="submit" value="Keep Looking">
                     </form>
-                    <form action="/list" method="POST">
-                        <input class="movieInput" style="display: none" type="text" name="movie_id" value="{{movie.movie_id}}" />
-                        <input class="movieInput" style="display: none" type="text" name="image" value="{{movie.image}}" />
-                        <input class="movieInput" style="display: none" type="text" name="title" value="{{movie.title}}" />
-                        <input class="movieInput" style="display: none" type="text" name="release_year" value="{{movie.release_year}}" />
-                        <input class="movieInput" style="display: none" type="text" name="duration" value="{{movie.duration}}" />
-                        <input class="movieInput"  style="display: none"type="text" name="genre" value="{{movie.genre}}" />
-                        <input class="movieInput" style="display: none" type="text" name="description" value="{{movie.description}}" />
-                        <input class="btn btn-primary btn-lg" type="submit" value="Save Movie">
-                    </form>
+                    <button class="btn btn-primary btn-lg" id="submit" onclick="save_movie();">Save Movie</button>
+
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function save_movie() {
+            let entry = {
+                movie_id: "{{movie.movie_id}}",
+                image: "{{movie.image}}",
+                title: "{{movie.title}}",
+                release_year: "{{movie.release_year}}",
+                duration: "{{movie.duration}}",
+                genre: "{{movie.genre}}",
+                description: "{{movie.description}}"
+            };
+
+            fetch(`${window.origin}/list`, {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(entry),
+                cache: "no-cache",
+                headers: new Headers({
+                    "content-type": "application/json"
+                })
+            }).then((response) => {
+                if (response.status !== 200) {
+                    console.log(`Looks like there was a problem. Status code: ${response.status}`);
+                    return;
+                } else {
+                    location.reload();
+                }
+            })
+            .catch(function (error) {
+                console.log("Fetch error: " + error);
+            });
+        }
+    </script>
 {% endblock %}
 
