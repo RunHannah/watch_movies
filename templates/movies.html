@@ -20,7 +20,7 @@
                             <p class="card-text">{{movie.description}}</p>
                         </div>
                         <form class="mx-auto mb-3" action='/delete' method="POST">
-                            <input class="movieInput" style="display: none" type="text" name="movie_id" value="{{movie.id}}" />
+                            <input class="movieInput" style="display: none" type="text" name="movie_id" value="{{movie.movie_id}}" />
                             <input class="btn btn-danger"  type="submit" value="Remove">
                         </form>
                         <button class="btn btn-danger" onclick="window.open('https://www.netflix.com/watch/{{movie.movie_id}}', '_blank')" target='0'>

@@ -48,6 +48,6 @@ class Movie(db.Model):
         return Movie.query.all()
     
     def delete(id):
-        movie = Movie.query.filter(Movie.id == id).first()
+        movie = Movie.query.filter(Movie.movie_id == id).first()
         db.session.delete(movie)
         db.session.commit()
