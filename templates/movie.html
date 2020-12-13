@@ -10,7 +10,7 @@
                 <div class="card-body; mb-5" style="color: #fff">
                     <h1 class="card-title">{{movie.title}}</h1>
                     <p class="card-text"><span class="text-danger">IMDB Rating: </span>
-                        {% if movie.imdb == 'Not Available' or 'N/A' %}
+                        {% if (movie.imdb == 'Not Available') or (movie.imdb == 'N/A') %}
                             Not Available
                         {% else %}
                             {{ movie.imdb }} / 10
