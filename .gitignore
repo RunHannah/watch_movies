@@ -1,3 +1,4 @@
 .env
 netflix_titles.csv
 __pycache__
+.vscode
