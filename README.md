@@ -8,7 +8,7 @@ A user can create a list, add or remove an item from the list, or watch the cont
 #### Technologies Used
 
 ```
-Application: Flask, JavaScript, HTML, CSS, Bootstrap
+Application: Python, Flask, JavaScript, HTML, CSS, Bootstrap
 Database: PostgreSQL, SQLAlchemy
 Data Source: www.kaggle.com/shivamb/netflix-shows
 
@@ -43,28 +43,39 @@ Note this project was built using Python 3.9.0 and Postgres 13.1, and requires P
     ```shell
     export OMDB_API_KEY="OMDB_API_KEY_HERE"
     ```
-7.  **In Postgres, create a database called netflix_movies**
+7.  **Start PostgreSQL server and create a database called netflix_movies**
+
+    ```shell
+    pg_ctl -D /usr/local/var/postgres start
+    psql postgres
+
+    ```
 
 8.  **Add to .env file the following info with your username and password for the netflix_movies database**
 
-    ```shell
-    export DATABASE_URL="postgresql://<username>:<password>@localhost/netflix_movies"
-    ```
+```shell
+export DATABASE_URL="postgresql://<username>:<password>@localhost/netflix_movies"
+```
 
 9.  **Activate virtual environment and install dependencies**
 
-    ```shell
-    $ pipenv shell
-    $ pipenv install
-    ```
+```shell
+$ pipenv shell
+$ pipenv install
+```
 
 10. **Start the development mode**
-    ```shell
-    $ python app.py
-    ```
+
+```shell
+$ python app.py
+```
 
 Site is now running at `http://127.0.0.1:5000/`
 
 ## License
 
 This project is licensed under the MIT License
+
+```
+
+```
