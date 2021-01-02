@@ -46,6 +46,7 @@ Note this project was built using Python 3.9.0 and Postgres 13.1, and requires P
 7.  **Start PostgreSQL server and create a database called netflix_movies**
 
     ```shell
+    For MacOS:
     pg_ctl -D /usr/local/var/postgres start
     psql postgres
 
@@ -75,7 +76,3 @@ Site is now running at `http://127.0.0.1:5000/`
 ## License
 
 This project is licensed under the MIT License
-
-```
-
-```
